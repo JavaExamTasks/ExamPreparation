@@ -1,35 +1,38 @@
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by pc on 4/8/2016.
  */
 public class SoftuniNumerals {
     public static void main(String[] args) {
-        Scanner console = new Scanner(System.in);
-        String input = console.nextLine();
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
 
-        ArrayList<String> arr = new ArrayList<String>() {{
-            addAll(Arrays.asList("aa", "aba", "bcc", "cc", "cdc"));
-        }};
-
-        Pattern pattern = Pattern
-                .compile("(aa|aba|bcc|cc|cdc)");
-        Matcher matcher = pattern.matcher(input);
+        HashMap<String,String> dict = new HashMap<>();
+        dict.put("aa", "0");
+        dict.put("aba", "1");
+        dict.put("bcc", "2");
+        dict.put("cc", "3");
+        dict.put("cdc", "4");
 
         StringBuilder sb = new StringBuilder();
 
-        while (matcher.find()){
-            sb.append(arr.indexOf(matcher.group(1)));
+        for (int i = 0; i < input.length(); i++) {
+            String arg = input.substring(i, i + 2);
+
+            if (dict.containsKey(arg)){
+                sb.append(dict.get(arg));
+                i++;
+            }else {
+                arg = input.substring(i, i + 3);
+                sb.append(dict.get(arg));
+                i += 2;
+            }
         }
 
-        BigInteger decimalNumber = new BigInteger(sb.toString(), 5);
-
-        System.out.println(decimalNumber);
+        BigInteger result = new BigInteger(sb.toString(), 5);
+        System.out.println(result);
     }
 }
